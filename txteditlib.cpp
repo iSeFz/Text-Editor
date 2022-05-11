@@ -45,7 +45,7 @@ void start(){
             "3- Empty the file.\n4- Encrypt the file content.\n"
             "5- Decrypt the file content\n6- Merge another file.\n"
             "7- Count the number of words in the file.\n"
-            "8- Count the number of charachters in the file.\n"
+            "8- Count the number of characters in the file.\n"
             "9- Count the number of lines in the file.\n"
             "10- Search for a word in the file.\n"
             "11- Count the number of times a word exists in the file.\n"
@@ -89,16 +89,20 @@ void start(){
             ; // some function
         }
         else if(choice == "11"){
-            ; // some function
+            char word[81];
+            cout << "Enter word you want to know how times it repetated\n";
+            cin >> word;
+            wordCount(fileName,word);
+            cin.ignore();
         }
         else if(choice == "12"){
-            ; // some function
+            toUpper(fileName);
         }
         else if(choice == "13"){
-            ; // some function
+            toLower(fileName);
         }
         else if(choice == "14"){
-            ; // some function
+            caps(fileName);
         }
         else if(choice == "15"){
             ; // some function
@@ -166,4 +170,130 @@ void encryptORdecrypt(char filename[], int decision){
         cout << "File is encrypted and secured!\n";
     else
         cout << "File is decrypted!\n";
+}
+
+// count number of existence specific char in the file
+void wordCount(char file[],char word[])
+{
+    fstream myFile;
+    myFile.open(file,ios::in);
+    char ch;
+    string text = "";
+    myFile.get(ch);
+    while(!myFile.eof())
+    {
+        // collect content of file in the string
+        text += (char)tolower(ch);
+        myFile.get(ch);
+    }
+    string temp = "";
+    int count = 0;
+    // iterate on each char in string
+    for(auto ch : text)
+    {
+        temp += ch;
+        // temp string is same as word
+        if(temp == word)
+        {
+            count += 1;
+            temp = "";
+        }
+        // check if coming char is either space or '\n'
+        else if (ch == ' '||ch == '\n')
+        {
+            temp = "";
+        }
+    }
+    cout<<"\"" <<word<<"\""<<" has repeated in the file "<<count<<" times\n";
+}
+
+void toUpper(char file[])
+{
+    fstream fileData;
+    fileData.open(file,ios::in);
+    char ch;
+    string upperChars;
+    fileData.get(ch);
+    while(!fileData.eof())
+    {
+        // collect content of file in the string after converting it to upper case
+        upperChars.push_back(char(toupper(ch)));
+        fileData.get(ch);
+    }
+    fileData.close();
+    // Create a new object with the same file but with different open mode
+    fileData.open(file,ios::out);
+    for(auto el:upperChars)
+    {
+        // write chars after converting it to upper case in file
+        fileData << el;
+    }
+    fileData.close();
+    cout << "Upper case applied successfully!\n";
+}
+
+
+void toLower(char file[])
+{
+    fstream fileData;
+    fileData.open(file,ios::in);
+    char ch;
+    string lowerChars;
+    fileData.get(ch);
+    while(!fileData.eof())
+    {
+        // collect content of file in the string after converting it to lower case
+        lowerChars.push_back(char(tolower(ch)));
+        fileData.get(ch);
+    }
+    fileData.close();
+    // Create a new object with the same file but with different open mode
+    fileData.open(file,ios::out);
+    for(auto el:lowerChars)
+    {
+        // write chars after converting it to lower case in file
+        fileData << el;
+    }
+    fileData.close();
+    cout << "Lower case applied successfully!\n";
+}
+
+void caps(char file[])
+{
+    fstream myFile;
+    myFile.open(file,ios::in);
+    char ch;
+    string text = "";
+    myFile.get(ch);
+    while(!myFile.eof())
+    {
+        // collect content of file in the string
+        text.push_back(ch);
+        myFile.get(ch);
+    }
+    myFile.close();
+    // Create a new object with the same file but with different open mode
+    myFile.open(file,ios::out);
+    for(int i = 0 ; i<text.size();i++)
+    {
+        // convert first char in first word to upper case
+        if(i == 0)
+        {
+           myFile << (char)toupper(text[0]);
+        }
+        else if(text[i] == ' '|| text[i] == '\n')
+        {
+            myFile<< text[i];
+            // convert char after space or after newline to upper case
+            myFile << (char)toupper(text[i + 1]);
+            i++;
+        }
+        else
+        {
+
+            myFile << text[i];
+        }
+    }
+    myFile.close();
+    cout << "First Caps has applied successfully!\n";
 }
