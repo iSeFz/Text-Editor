@@ -30,6 +30,7 @@ void getFile(){
     if(file.fail()){
         cout << "This is a new file. I created it for you!\n";
         ofstream newFile(fileName, ios::out);
+        newFile.close();
     }
     else
         cout << "\"" << fileName << "\" already exists!\n";
@@ -55,21 +56,22 @@ void start(){
     string choice;
     while(choice != "16"){
         cout << "Choose one of the above options: ";
-        cin >> choice;
+        cin.clear();
+        getline(cin, choice);
         if(choice == "1"){
-            ; // some function
+            addText(fileName);
         }
         else if(choice == "2"){
-            ; // some function
+            displayContent(fileName);
         }
         else if(choice == "3"){
-            ; // some function
+            emptyFile(fileName);
         }
         else if(choice == "4"){
-            ; // some function
+            encryptORdecrypt(fileName, 1); // encrypt
         }
         else if(choice == "5"){
-            ; // some function
+            encryptORdecrypt(fileName, -1); // decrypt
         }
         else if(choice == "6"){
             ; // some function
@@ -110,4 +112,58 @@ void start(){
             continue;
         }
     }
+}
+
+// Add more text to the file as input through console
+void addText(char filename[]){
+    ofstream addToFile(filename, ios::app);
+    char input;
+    cout << "Enter text to add and finish by (Ctrl + Z): ";
+    cin.get(input);
+    // Take text from user and add it to the file
+    // and stop when the user enters ctrl + z (^Z)
+    while(!cin.eof()){
+        addToFile.put(input);
+        cin.get(input);
+    }
+    cout << "Text added to the file successfully!\n";
+}
+
+// Display contents of the file in the console
+void displayContent(char filename[]){
+    cout << "\t\t---------- " << filename << " ----------\n";
+    ifstream displayFile(filename, ios::in);
+    if(displayFile.peek() == EOF)
+        cout << "\t\t\tFile is EMPTY!\n";
+    string line;
+    // Output the contents of the file line by line
+    while(getline(displayFile, line)){
+        cout << line << endl;
+    }
+}
+
+// Remove/Truncate contents of the file
+void emptyFile(char filename[]){
+    ofstream emptyFile(filename, ios::trunc);
+    cout << "File contents removed and it is now EMPTY!\n";
+}
+
+// Encrypt Or Decrypt contents of the file
+void encryptORdecrypt(char filename[], int decision){
+    // Create an object to take text from
+    ifstream inFile(filename, ios::in);
+    char ch;
+    inFile.get(ch);
+    // Create a new object with the same file but with different open mode
+    ofstream outFile(filename, ios::out);
+    // Increment/Decrement the ASCII of each character by one
+    while(!inFile.eof()){
+        outFile.put(char (ch + decision));
+        inFile.get(ch);
+    }
+    // According to the action print the suitable confirmation message
+    if(decision == 1)
+        cout << "File is encrypted and secured!\n";
+    else
+        cout << "File is decrypted!\n";
 }
