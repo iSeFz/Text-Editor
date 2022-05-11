@@ -33,6 +33,7 @@ void getFile(){
     }
     else
         cout << "\"" << fileName << "\" already exists!\n";
+    file.close();
 }
 
 // Displays the menu to the user to choose what to do with the file
