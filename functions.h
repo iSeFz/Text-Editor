@@ -24,4 +24,16 @@ void emptyFile(char filename[]);
 // 4-5 ==> Encrypt Or Decrypt contents of the file
 void encryptORdecrypt(char filename[], int decision);
 
+// 11 ==> count number of existence specific char in the file
+void wordCount(char filename[],char word[]);
+
+// 12 ==> Convert every char in the file to upper case
+void toUpper(char filename[]);
+
+// 13 ==> Convert every char in the file to lower case
+void toLower(char filename[]);
+
+// 14 ==> Convert first char char of each word to upper case
+void caps(char filename[]);
+
 #endif
