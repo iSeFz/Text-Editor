@@ -74,10 +74,10 @@ void start(){
             encryptORdecrypt(fileName, -1); // decrypt
         }
         else if(choice == "6"){
-            ; // some function
+            mergeFile(fileName);
         }
         else if(choice == "7"){
-            ; // some function
+            wordCount(fileName);
         }
         else if(choice == "8"){
             ; // some function
@@ -92,7 +92,7 @@ void start(){
             char word[81];
             cout << "Enter word you want to know how times it repetated\n";
             cin >> word;
-            wordCount(fileName,word);
+            wordFrequency(fileName,word);
             cin.ignore();
         }
         else if(choice == "12"){
@@ -172,8 +172,72 @@ void encryptORdecrypt(char filename[], int decision){
         cout << "File is decrypted!\n";
 }
 
+// Merges another file to the main file
+void mergeFile(char filename[]){
+    char fileName2[101];
+    int valid = 0;
+    // Get the file to work on as input from the user
+    while(!valid){
+        cout << "Please enter the name of text file to work on: ";
+        cin.clear();
+        cin.getline(fileName2, 101, '\n');
+        // Check for the correct format of the input file
+        regex validFormat("[a-zA-Z]+(-|_|[0-9])*[a-zA-Z]+(-|_|[0-9])*(.txt)");
+        if(!regex_match(fileName2, validFormat)){
+            cerr << "File format NOT supproted! Enter only \".txt\" files.\n";
+            continue;
+        }
+        else
+            valid = 1;
+    }
+
+    fstream file1, file2;
+    file1.open(filename, ios::app);
+    file2.open(fileName2, ios::in);
+    cout << fileName2 << endl;
+    if(file2.fail()){
+        cerr << "File doesn't exist!\n";
+        mergeFile(filename);
+    }
+    else{
+        string line;
+        while(getline(file2, line)){
+            file1 << line << endl;
+        }
+        cout << "File merged successfully!\n";
+    }
+}
+
+// Counts how many words in the file
+void wordCount(char filename[]){
+    fstream file(filename,ios::in);
+    if(file.fail())
+    {
+        cerr << "file not found";
+    }
+    else
+    {
+        int nWords = 0;
+        char ch;
+        string text = "";
+        file.get(ch);
+        while(!file.eof())
+        {
+            text += ch;
+            file.get(ch);
+        }
+        for(int i = 0; i < text.length() - 1; i++){
+            if(i == 0 && !isspace(text[0]))
+                nWords++;
+            if(isspace(text[i]) && !isspace(text[i + 1]))
+                nWords++;
+        }
+        cout << "The number of words in " << filename << " is " << nWords << endl;
+    }
+}
+
 // count number of existence specific char in the file
-void wordCount(char file[],char word[])
+void wordFrequency(char file[],char word[])
 {
     fstream myFile;
     myFile.open(file,ios::in);

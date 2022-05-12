@@ -40,7 +40,7 @@ void lineCount(char filename[]);
 void wordSearch(char filename[]);
 
 // 11 ==> count number of existence specific char in the file
-void wordCount(char filename[],char word[]);
+void wordFrequency(char filename[],char word[]);
 
 // 12 ==> Convert every char in the file to upper case
 void toUpper(char filename[]);
