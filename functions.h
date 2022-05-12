@@ -24,6 +24,21 @@ void emptyFile(char filename[]);
 // 4-5 ==> Encrypt Or Decrypt contents of the file
 void encryptORdecrypt(char filename[], int decision);
 
+// 6 ==> Merges another file to the existing file
+void mergeFile(char filename[]);
+
+//7 ==> Counts number of words in the file
+void wordCount(char filename[]);
+
+// 8 ==> Counts number of characters in the file
+void characterCount(char filename[]);
+
+// 9 ==> Counts number of lines in the file
+void lineCount(char filename[]);
+
+// 10 ==> Search for a word in the file
+void wordSearch(char filename[]);
+
 // 11 ==> count number of existence specific char in the file
 void wordCount(char filename[],char word[]);
 
