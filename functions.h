@@ -31,7 +31,7 @@ void mergeFile(char filename[]);
 void wordCount(char filename[]);
 
 // 8 ==> Counts number of characters in the file
-void characterCount(char filename[]);
+void charCount(char filename[]);
 
 // 9 ==> Counts number of lines in the file
 void lineCount(char filename[]);

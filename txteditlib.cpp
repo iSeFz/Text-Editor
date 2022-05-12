@@ -80,13 +80,13 @@ void start(){
             wordCount(fileName);
         }
         else if(choice == "8"){
-            ; // some function
+            charCount(fileName);
         }
         else if(choice == "9"){
-            ; // some function
+            lineCount(fileName);
         }
         else if(choice == "10"){
-            ; // some function
+            wordSearch(fileName);
         }
         else if(choice == "11"){
             char word[81];
@@ -234,6 +234,84 @@ void wordCount(char filename[]){
         }
         cout << "The number of words in " << filename << " is " << nWords << endl;
     }
+}
+
+// Counts how many characters in the file
+void charCount(char filename[]){
+    fstream file(filename,ios::in);
+    if(file.fail())
+    {
+        cerr << "file not found";
+    }
+    else
+    {
+        int nChars = 0;
+        char ch;
+        file.get(ch);
+        while(!file.eof())
+        {
+            if(!isspace(ch))
+                nChars++;
+            file.get(ch);
+        }
+        cout << "The number of characters in " << filename << " is " << nChars << endl;
+    }
+}
+
+// Counts how many lines in the file
+void lineCount(char filename[]){
+    fstream file(filename,ios::in);
+    if(file.fail())
+    {
+        cerr << "file not found";
+    }
+    else
+    {
+        int nLines = 1;
+        char ch;
+        file.get(ch);
+        while(!file.eof())
+        {
+            if(ch == '\n')
+                nLines++;
+            file.get(ch);
+        }
+        cout << "The number of lines in " << filename << " is " << nLines << endl;
+    }
+}
+
+// Searches for a word in the file
+void wordSearch(char filename[]){
+    string word;
+    cout << "Enter the word to search for: ";
+    cin >> word;
+    fstream file(filename,ios::in);
+    char ch;
+    string text = "";
+    file.get(ch);
+    while(!file.eof())
+    {
+        text += (char)tolower(ch);
+        file.get(ch);
+    }
+    string temp = "";
+    for(auto ch : text)
+    {
+        temp += ch;
+        // temp string is same as word
+        if(temp == word)
+        {
+            cout << "Word was found in the file :)\n";
+            return;
+
+        }
+        // check if coming char is either space or '\n'
+        else if (isspace(ch))
+        {
+            temp = "";
+        }
+    }
+    cout << "Word was not found in the file :(\n";
 }
 
 // count number of existence specific char in the file
