@@ -279,28 +279,45 @@ void lineCount(char filename[]){
 
 // Searches for a word in the file
 void wordSearch(char filename[]){
+
+    // Taking the word needed to search for from user
     string word;
     cout << "Enter the word to search for: ";
     cin.clear();
     getline(cin, word);
+
+    // Loop to convert the word to lowercase
+    for(int i = 0; i < word.length(); i++){
+        word[i] = tolower(word[i]);
+    }
+
+    // Initiating file and text string
     fstream file(filename, ios::in);
     char ch;
     string text = "";
     file.get(ch);
+
+    // Loop to add a lowercase version of the file to text string
     while(!file.eof()){
         text += (char)tolower(ch);
         file.get(ch);
     }
+
+    // Loop to that compares each word from text to the word taken from user
     string temp = "";
-    for(auto ch : text){
-        temp += ch;
-        // temp string is same as word
-        if(temp == word){
+    for(int i = 0; i <= text.length(); i++){
+
+        // Adding new character to temp
+        temp += text[i];
+
+        // Checking if temp string is same as word and that temp is a whole word
+        if(temp == word && isspace(text[i + 1])){
             cout << "\"" << word << "\" was found in the file :)\n";
             return;
         }
-        // check if coming char is either space or '\n'
-        else if(isspace(ch)){
+
+        // Checking if current character is a space character and empties temp if true
+        else if(isspace(text[i])){
             temp = "";
         }
     }
