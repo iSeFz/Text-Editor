@@ -27,7 +27,7 @@ void encryptORdecrypt(char filename[], int decision);
 // 6 ==> Merges another file to the existing file
 void mergeFile(char filename[]);
 
-//7 ==> Counts number of words in the file
+// 7 ==> Counts number of words in the file
 void wordCount(char filename[]);
 
 // 8 ==> Counts number of characters in the file
@@ -40,15 +40,18 @@ void lineCount(char filename[]);
 void wordSearch(char filename[]);
 
 // 11 ==> count number of existence specific char in the file
-void wordFrequency(char filename[],char word[]);
+void wordFrequency(char file[]);
 
 // 12 ==> Convert every char in the file to upper case
-void toUpper(char filename[]);
+void toUpper(char file[]);
 
 // 13 ==> Convert every char in the file to lower case
-void toLower(char filename[]);
+void toLower(char file[]);
 
-// 14 ==> Convert first char char of each word to upper case
-void caps(char filename[]);
+// 14 ==> Convert first char of each word to upper case
+void firstCaps(char file[]);
+
+// 15 ==> Save file contents to a new or same file
+void save();
 
 #endif
