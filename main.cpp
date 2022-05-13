@@ -5,8 +5,8 @@ Author1 and ID: Seif Yahia - 20210172
 Author2 and ID: Mohamed Amgad - 20210330
 Author3 and ID: Omar Elgammal - 20210271
 Program Name: Text Editor
-Last Modification Date: 11 May 2022
-Version: 1.4
+Last Modification Date: 13 May 2022
+Version: 2.5
 */
 
 #include <iostream>
