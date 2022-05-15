@@ -279,7 +279,12 @@ void lineCount(char filename[]){
     }
     else{
         // Initiating variables needed to count lines
-        int nLines = 1;
+        // Checking if file is empty then initiates nLines with 0
+        int nLines;
+        if(file.peek() == EOF)
+            nLines = 0;
+        else
+            nLines = 1;
         char ch;
         file.get(ch);
         // Loop that iterates on each letter
