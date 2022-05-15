@@ -185,6 +185,7 @@ void mergeFile(char filename[]){
         cin.getline(fileName2, 101, '\n');
         // Check for the correct format of the input file
         regex validFormat("([a-zA-Z]+(-|_|[0-9])*[a-zA-Z]+(-|_|[0-9])*)+(.txt)");
+        // If expression is not valid it loops again for input
         if(!regex_match(fileName2, validFormat)){
             cerr << "File format NOT supported! Enter only \".txt\" files.\n";
             continue;
@@ -196,6 +197,7 @@ void mergeFile(char filename[]){
     fstream file1, file2;
     file1.open(filename, ios::app);
     file2.open(fileName2, ios::in);
+    // Checks if file2 is working then adds the second file to the main
     if(file2.fail()){
         cerr << "File doesn't exist!\n";
         mergeFile(filename);
@@ -207,46 +209,57 @@ void mergeFile(char filename[]){
         }
         cout << "Files merged successfully!\n";
     }
+    // Closing the two files
     file1.close();
     file2.close();
 }
 
 // Counts how many words in the file
 void wordCount(char filename[]){
+    // Opens file and checks if it is working
     fstream file(filename, ios::in);
     if(file.fail()){
         cerr << "File not found!\n";
     }
     else{
+        // Initiating variables needed for counting words
         int nWords = 0;
         char ch;
         string text = "";
+        // Looping on each character in the file and copies it to string (text)
         file.get(ch);
         while(!file.eof()){
             text += ch;
             file.get(ch);
         }
+        // Loop for counting words in text
         for(int i = 0; i < text.length() - 1; i++){
+            // Checking if first character is a letter then increments nWords
             if(i == 0 && !isspace(text[0]))
                 nWords++;
+            // Checking if current letter is a space and the next is a letter to increment nWords
             if(isspace(text[i]) && !isspace(text[i + 1]))
                 nWords++;
         }
         cout << "The number of words in \"" << filename << "\" is " << nWords << " words.\n";
     }
+    // Closing file
     file.close();
 }
 
 // Counts how many characters in the file
 void charCount(char filename[]){
+    // Opening file and checks if it is working
     fstream file(filename, ios::in);
     if(file.fail()){
         cerr << "File not found!\n";
     }
     else{
+        // Initiating variables needed to count characters
         int nChars = 0;
         char ch;
         file.get(ch);
+        // Loop that iterates on each letter in file and increments nChars by 1 if it is a character
         while(!file.eof()){
             if(!isspace(ch))
                 nChars++;
@@ -259,69 +272,67 @@ void charCount(char filename[]){
 
 // Counts how many lines in the file
 void lineCount(char filename[]){
+    // Opening file and checks if it is working
     fstream file(filename, ios::in);
     if(file.fail()){
         cerr << "File not found!\n";
     }
     else{
+        // Initiating variables needed to count lines
         int nLines = 1;
         char ch;
         file.get(ch);
+        // Loop that iterates on each letter
         while(!file.eof()){
+            // If new line character was found then increment nLines
             if(ch == '\n')
                 nLines++;
             file.get(ch);
         }
         cout << "The number of lines in \"" << filename << "\" is " << nLines << " lines.\n";
     }
+    // Closing the file
     file.close();
 }
 
 // Searches for a word in the file
 void wordSearch(char filename[]){
-
     // Taking the word needed to search for from user
     string word;
     cout << "Enter the word to search for: ";
     cin.clear();
     getline(cin, word);
-
     // Loop to convert the word to lowercase
     for(int i = 0; i < word.length(); i++){
         word[i] = tolower(word[i]);
     }
-
     // Initiating file and text string
     fstream file(filename, ios::in);
     char ch;
     string text = "";
     file.get(ch);
-
     // Loop to add a lowercase version of the file to text string
     while(!file.eof()){
         text += (char)tolower(ch);
         file.get(ch);
     }
-
     // Loop to that compares each word from text to the word taken from user
     string temp = "";
     for(int i = 0; i <= text.length(); i++){
-
         // Adding new character to temp
         temp += text[i];
-
         // Checking if temp string is same as word and that temp is a whole word
         if(temp == word && isspace(text[i + 1])){
             cout << "\"" << word << "\" was found in the file :)\n";
             return;
         }
-
         // Checking if current character is a space character and empties temp if true
         else if(isspace(text[i])){
             temp = "";
         }
     }
     cout << "\"" << word << "\" was not found in the file :(\n";
+    // Closing the file
     file.close();
 }
 
