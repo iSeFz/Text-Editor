@@ -336,12 +336,13 @@ void wordSearch(char filename[]){
     file.close();
 }
 
-// count number of existence specific char in the file
 void wordFrequency(char file[]){
-    char word[81];
+    string word;
     cout << "Enter word you want to know how times it repetated: ";
     cin.clear();
-    cin.getline(word, 81, '\n');
+    getline(cin, word);
+    for(int i = 0; i < word.length(); i++)
+        word[i] = tolower(word[i]);
     fstream myFile;
     myFile.open(file, ios::in);
     char ch;
@@ -355,15 +356,15 @@ void wordFrequency(char file[]){
     string temp = "";
     int count = 0;
     // iterate on each char in string
-    for(auto ch : text){
-        temp += ch;
+    for(int i = 0; i <= text.length(); i++){
+        temp += text[i];
         // temp string is same as word
-        if(temp == word){
+        if(temp == word && isspace(text[i + 1])){
             count += 1;
             temp = "";
         }
         // check if coming char is either space or '\n'
-        else if (ch == ' '|| ch == '\n'){
+        else if (isspace(text[i])){
             temp = "";
         }
     }
