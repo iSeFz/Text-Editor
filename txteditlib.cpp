@@ -426,7 +426,7 @@ void toLower(char file[]){
     cout << "Lower case applied successfully!\n";
 }
 
-// Convert first character of each word to upper case
+ // Convert first character of each word to upper case
 void firstCaps(char file[]){
     fstream myFile;
     myFile.open(file, ios::in);
@@ -443,14 +443,14 @@ void firstCaps(char file[]){
     myFile.open(file, ios::out);
     for(int i = 0; i < text.size(); i++){
         // Convert first char in first word to upper case
-        if(i == 0){
-           myFile << (char)toupper(text[0]);
+        if(i == 0 && !isspace(text[i])){
+           myFile << (char)toupper(text[i]);
         }
         else if(isspace(text[i])){
             myFile << text[i];
             // Convert char after space character
-            myFile << (char)toupper(text[i + 1]);
-            i++;
+            if(!isspace(text[i + 1]))
+                myFile << (char)toupper(text[i + 1]);
         }
         else{
             myFile << text[i];
@@ -459,7 +459,6 @@ void firstCaps(char file[]){
     myFile.close(); // Closing file
     cout << "First Caps applied successfully!\n";
 }
-
 // Save file contents to a new or same file
 void save(){
     char newFilename[101];
