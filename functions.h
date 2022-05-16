@@ -39,19 +39,19 @@ void lineCount(char filename[]);
 // 10 ==> Search for a word in the file
 void wordSearch(char filename[]);
 
-// 11 ==> count number of existence specific char in the file
+// 11 ==> count number of existence a specific word in the file
 void wordFrequency(char file[]);
 
-// 12 ==> Convert every char in the file to upper case
+// 12 ==> Convert every character in the file to upper case
 void toUpper(char file[]);
 
-// 13 ==> Convert every char in the file to lower case
+// 13 ==> Convert every character in the file to lower case
 void toLower(char file[]);
 
-// 14 ==> Convert first char of each word to upper case
+// 14 ==> Convert first character of each word to upper case
 void firstCaps(char file[]);
 
-// 15 ==> Save file contents to a new or same file
+// 15 ==> Save file contents to a new or current file
 void save();
 
 #endif
