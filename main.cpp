@@ -6,16 +6,13 @@ Author2 and ID: Mohamed Amgad - 20210330
 Author3 and ID: Omar Elgammal - 20210271
 Program Name: Text Editor
 Last Modification Date: 16 May 2022
-Version: 3.0
+Version: 3.5
 */
 
-#include <iostream>
 #include "txteditlib.cpp"
 
-using namespace std;
-
 int main(){
-    cout << "Welcome to the Text Editor program!\n";
+    cout << "\t\t\tWelcome to the Text Editor program!\n";
     getFile();      // Takes the file from the user
     start();        // Displays the menu of options
 }
