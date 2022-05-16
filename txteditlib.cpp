@@ -165,6 +165,7 @@ void encryptORdecrypt(char filename[], int decision){
         outFile.put(char (ch + decision));
         inFile.get(ch);
     }
+    // Closing files
     inFile.close();
     outFile.close();
     // According to the action print the suitable confirmation message
@@ -243,8 +244,7 @@ void wordCount(char filename[]){
         }
         cout << "The number of words in \"" << filename << "\" is " << nWords << " words.\n";
     }
-    // Closing file
-    file.close();
+    file.close(); // Closing file
 }
 
 // Counts how many characters in the file
@@ -267,7 +267,7 @@ void charCount(char filename[]){
         }
         cout << "The number of characters in \"" << filename << "\" is " << nChars << " characters.\n";
     }
-    file.close();
+    file.close(); // Closing file
 }
 
 // Counts how many lines in the file
@@ -296,8 +296,7 @@ void lineCount(char filename[]){
         }
         cout << "The number of lines in \"" << filename << "\" is " << nLines << " lines.\n";
     }
-    // Closing the file
-    file.close();
+    file.close(); // Closing the file
 }
 
 // Searches for a word in the file
@@ -337,47 +336,51 @@ void wordSearch(char filename[]){
         }
     }
     cout << "\"" << word << "\" was not found in the file :(\n";
-    // Closing the file
-    file.close();
+    file.close(); // Closing the file
 }
 
+// Counts how many times the word input from user was repeated in the file
 void wordFrequency(char file[]){
     string word;
-    cout << "Enter word you want to know how times it repetated: ";
+    // Taking the word from user
+    cout << "Enter the word you want to know how many repetitions of it: ";
     cin.clear();
     getline(cin, word);
+    // Converting word to lower case
     for(int i = 0; i < word.length(); i++)
         word[i] = tolower(word[i]);
+    // Opening file
     fstream myFile;
     myFile.open(file, ios::in);
     char ch;
     string text = "";
+    // Copying a lower case version of the file to a string called text
     myFile.get(ch);
     while(!myFile.eof()){
-        // collect content of file in the string
         text += (char)tolower(ch);
         myFile.get(ch);
     }
+    // Initiating variables needed for counting
     string temp = "";
     int count = 0;
-    // iterate on each char in string
+    // Iterate on each char in string
     for(int i = 0; i <= text.length(); i++){
         temp += text[i];
-        // temp string is same as word
+        // Checking if temp is a whole word and is the same as the input word
         if(temp == word && isspace(text[i + 1])){
             count += 1;
             temp = "";
         }
-        // check if coming char is either space or '\n'
+        // Checking if coming character is a space character and empties temp if true
         else if (isspace(text[i])){
             temp = "";
         }
     }
-    cout << "\"" << word << "\" repeated in the file " << count << " time(s).\n";
-    myFile.close();
+    cout << "\"" << word << "\" is repeated in the file " << count << " time(s).\n";
+    myFile.close(); // Closing file
 }
 
-// Convert every char in the file to upper case
+// Convert every character in the file to upper case
 void toUpper(char file[]){
     fstream fileData;
     fileData.open(file, ios::in);
@@ -385,22 +388,22 @@ void toUpper(char file[]){
     string upperChars;
     fileData.get(ch);
     while(!fileData.eof()){
-        // collect content of file in the string after converting it to upper case
+        // Collect content of file in the string after converting it to upper case
         upperChars.push_back(char(toupper(ch)));
         fileData.get(ch);
     }
-    fileData.close();
+    fileData.close(); // Closing file
     // Create a new object with the same file but with different open mode
     fileData.open(file, ios::out);
     for(auto el: upperChars){
         // write chars after converting it to upper case in file
         fileData << el;
     }
-    fileData.close();
+    fileData.close(); // Closing file
     cout << "Upper case applied successfully!\n";
 }
 
-// Convert every char in the file to lower case
+// Convert every character in the file to lower case
 void toLower(char file[]){
     fstream fileData;
     fileData.open(file, ios::in);
@@ -408,7 +411,7 @@ void toLower(char file[]){
     string lowerChars;
     fileData.get(ch);
     while(!fileData.eof()){
-        // collect content of file in the string after converting it to lower case
+        // Collect content of file in the string after converting it to lower case
         lowerChars.push_back(char(tolower(ch)));
         fileData.get(ch);
     }
@@ -419,11 +422,11 @@ void toLower(char file[]){
         // write chars after converting it to lower case in file
         fileData << el;
     }
-    fileData.close();
+    fileData.close(); // Closing file
     cout << "Lower case applied successfully!\n";
 }
 
-// Convert first char of each word to upper case
+// Convert first character of each word to upper case
 void firstCaps(char file[]){
     fstream myFile;
     myFile.open(file, ios::in);
@@ -439,13 +442,13 @@ void firstCaps(char file[]){
     // Create a new object with the same file but with different open mode
     myFile.open(file, ios::out);
     for(int i = 0; i < text.size(); i++){
-        // convert first char in first word to upper case
+        // Convert first char in first word to upper case
         if(i == 0){
            myFile << (char)toupper(text[0]);
         }
-        else if(text[i] == ' '|| text[i] == '\n'){
+        else if(isspace(text[i])){
             myFile << text[i];
-            // convert char after space or after newline to upper case
+            // Convert char after space character
             myFile << (char)toupper(text[i + 1]);
             i++;
         }
@@ -453,7 +456,7 @@ void firstCaps(char file[]){
             myFile << text[i];
         }
     }
-    myFile.close();
+    myFile.close(); // Closing file
     cout << "First Caps applied successfully!\n";
 }
 
@@ -468,14 +471,17 @@ void save(){
         cin.getline(newFilename, 101, '\n');
         // Check for the correct format of the input file
         regex validFormat("([a-zA-Z]+(-|_|[0-9])*[a-zA-Z]+(-|_|[0-9])*)+(.txt)");
+        // Checking if user typed enter to save contents to current file
         if(newFilename[0] == '\0'){
             cout << "\"" << fileName << "\" is saved successfully!\n";
             break;
         }
+        // Checking if file format is invalid to return back to user and take input
         else if(!regex_match(newFilename, validFormat)){
             cerr << "File format NOT supported! Enter only \".txt\" files.\n";
             continue;
         }
+        // Creates a new file with the given name from user and saves contents in it    
         else{
             ifstream oldFile(fileName, ios::in);
             ofstream newFile(newFilename, ios::out);
