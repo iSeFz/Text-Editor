@@ -13,43 +13,43 @@ void getFile();
 void start();
 
 // 1 ==> Add more text to the file as input through console
-void addText(char filename[]);
+void addText(char []);
 
 // 2 ==> Display contents of the file in the console
-void displayContent(char filename[]);
+void displayContent(char []);
 
 // 3 ==> Remove/Truncate contents of the file
-void emptyFile(char filename[]);
+void emptyFile(char []);
 
 // 4-5 ==> Encrypt Or Decrypt contents of the file
-void encryptORdecrypt(char filename[], int decision);
+void encryptORdecrypt(char [], int);
 
 // 6 ==> Merges another file to the existing file
-void mergeFile(char filename[]);
+void mergeFile(char []);
 
 // 7 ==> Counts number of words in the file
-void wordCount(char filename[]);
+void wordCount(char []);
 
 // 8 ==> Counts number of characters in the file
-void charCount(char filename[]);
+void charCount(char []);
 
 // 9 ==> Counts number of lines in the file
-void lineCount(char filename[]);
+void lineCount(char []);
 
 // 10 ==> Search for a word in the file
-void wordSearch(char filename[]);
+void wordSearch(char []);
 
 // 11 ==> count number of existence a specific word in the file
-void wordFrequency(char file[]);
+void wordFrequency(char []);
 
 // 12 ==> Convert every character in the file to upper case
-void toUpper(char file[]);
+void toUpper(char []);
 
 // 13 ==> Convert every character in the file to lower case
-void toLower(char file[]);
+void toLower(char []);
 
 // 14 ==> Convert first character of each word to upper case
-void firstCaps(char file[]);
+void firstCaps(char []);
 
 // 15 ==> Save file contents to a new or current file
 void save();
