@@ -449,8 +449,10 @@ void firstCaps(char file[]){
         else if(isspace(text[i])){
             myFile << text[i];
             // Convert char after space character
-            if(!isspace(text[i + 1]))
+            if(!isspace(text[i + 1])){
                 myFile << (char)toupper(text[i + 1]);
+                i++;
+                }
         }
         else{
             myFile << text[i];
