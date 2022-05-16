@@ -12,15 +12,16 @@ using namespace std;
 
 // Takes the initial file from the user to work on
 void getFile(){
+    cout << "------------------------------ Input File -------------------------------\n";
     // Get the file to work on as input from the user
     while(true){
         cout << "Please enter the name of text file to work on: ";
         cin.clear();
         cin.getline(fileName, 101, '\n');
         // Check for the correct format of the input file
-        regex validFormat("([a-zA-Z]+(-|_|[0-9])*[a-zA-Z]+(-|_|[0-9])*)+(.txt)");
+        regex validFormat("[\\w-]+(.txt)");
         if(!regex_match(fileName, validFormat)){
-            cerr << "File format NOT supported! Enter only \".txt\" files.\n";
+            cerr << "########## File format NOT supported! Enter only \".txt\" files ##########\n";
             continue;
         }
         else
@@ -31,16 +32,17 @@ void getFile(){
     ifstream file(fileName, ios::in);
     if(file.fail()){
         ofstream newFile(fileName, ios::out);
-        cout << "\"" << fileName << "\" is a new file. I created it for you!\n";
+        cout << "$$$$$$$$$$ \"" << fileName << "\" is a new file. I created it for you! $$$$$$$$$$\n";
         newFile.close();
     }
     else
-        cout << "\"" << fileName << "\" already exists!\n";
+        cout << "$$$$$$$$$$ \"" << fileName << "\" already exists! $$$$$$$$$$\n";
     file.close();
 }
 
 // Displays the menu to the user to choose what to do with the file
 void start(){
+    cout << "\n------------------------------ Text Editor ------------------------------\n";
     string choice;
     while(choice != "16"){
         cout << "\nThe program can do the following actions:\n"
@@ -57,7 +59,7 @@ void start(){
                 "13- Turn the file content to lower case.\n"
                 "14- Turn file content into first caps.\n"
                 "15- Save the file.\n16- Exit.\n";
-        cout << "\nChoose one of the above options: ";
+        cout << "Choose one of the above options: ";
         cin.clear();
         getline(cin, choice);
         if(choice == "1"){
@@ -110,15 +112,16 @@ void start(){
             break;
         }
         else{
-            cerr << "\nINVALID INPUT! Enter only numbers from 1 to 16.\n";
+            cerr << "\n########## INVALID INPUT! Enter only numbers from 1 to 16 ##########\n";
             continue;
         }
     }
-    cout << "\t\tThank You for using the Text Editor program!\n";
+    cout << "\t\t\tThank You for using the Text Editor program!\n";
 }
 
 // Add more text to the file as input through console
 void addText(char filename[]){
+    cout << "\n-------------------- Add Text to " << filename << " --------------------\n";
     ofstream addToFile(filename, ios::app);
     string input;
     cout << "Enter text to add and finish by (Ctrl + Z) \"in its own line\":\n";
@@ -128,28 +131,30 @@ void addText(char filename[]){
         addToFile << input << endl;
     }
     addToFile.close();
-    cout << "Text added to the file successfully!\n";
+    cout << "$$$$$$$$$$ Text added to the file successfully! $$$$$$$$$$\n";
 }
 
 // Display contents of the file in the console
 void displayContent(char filename[]){
-    cout << "\t\t---------- " << filename << " ----------\n";
+    cout << "\n\t\t---------- " << filename << " ----------\n";
     ifstream displayFile(filename, ios::in);
     if(displayFile.peek() == EOF)
-        cout << "\t\t\tFile is EMPTY!\n";
+        cout << "\t\t\t" << filename << " is EMPTY!\n";
     string line;
     // Output the contents of the file line by line
     while(getline(displayFile, line)){
         cout << line << endl;
     }
     displayFile.close();
+    cout << "-------------------------------------------------------------------------\n";
 }
 
 // Remove/Truncate contents of the file
 void emptyFile(char filename[]){
+    cout << "\n-------------------------- Empty file -------------------------\n";
     ofstream emptyFile(filename, ios::trunc);
-    cout << "File contents removed and it is now EMPTY!\n";
     emptyFile.close();
+    cout << "$$$$$$$$$$ " << filename << " contents removed and is now EMPTY! $$$$$$$$$$\n";
 }
 
 // Encrypt Or Decrypt contents of the file
@@ -169,14 +174,19 @@ void encryptORdecrypt(char filename[], int decision){
     inFile.close();
     outFile.close();
     // According to the action print the suitable confirmation message
-    if(decision == 1)
-        cout << "File is encrypted and secured!\n";
-    else
-        cout << "File is decrypted!\n";
+    if(decision == 1){
+        cout << "\n--------------- Encrypt file contents ---------------\n";
+        cout << "$$$$$$$$$$ File is encrypted and secured! $$$$$$$$$$\n";
+    }
+    else{
+        cout << "\n------------- Decrypt file contents -------------\n";
+        cout << "$$$$$$$$$$ File is decrypted! $$$$$$$$$$\n";
+    }
 }
 
 // Merges another file to the main file
 void mergeFile(char filename[]){
+    cout << "\n-------------------- Merge file with " << filename << " --------------------\n";
     char fileName2[101];
     int valid = 0;
     // Get the file to merge as input from the user
@@ -185,10 +195,10 @@ void mergeFile(char filename[]){
         cin.clear();
         cin.getline(fileName2, 101, '\n');
         // Check for the correct format of the input file
-        regex validFormat("([a-zA-Z]+(-|_|[0-9])*[a-zA-Z]+(-|_|[0-9])*)+(.txt)");
+        regex validFormat("[\\w-]+(.txt)");
         // If expression is not valid it loops again for input
         if(!regex_match(fileName2, validFormat)){
-            cerr << "File format NOT supported! Enter only \".txt\" files.\n";
+            cerr << "########## File format NOT supported! Enter only \".txt\" files ##########\n";
             continue;
         }
         else
@@ -200,7 +210,7 @@ void mergeFile(char filename[]){
     file2.open(fileName2, ios::in);
     // Checks if file2 is working then adds the second file to the main
     if(file2.fail()){
-        cerr << "File doesn't exist!\n";
+        cerr << "########## File does NOT exist! ##########\n";
         mergeFile(filename);
     }
     else{
@@ -208,7 +218,7 @@ void mergeFile(char filename[]){
         while(getline(file2, line)){
             file1 << line << endl;
         }
-        cout << "Files merged successfully!\n";
+        cout << "$$$$$$$$$$ " << filename << " & " << fileName2 << " were merged successfully! $$$$$$$$$$\n";
     }
     // Closing the two files
     file1.close();
@@ -217,90 +227,77 @@ void mergeFile(char filename[]){
 
 // Counts how many words in the file
 void wordCount(char filename[]){
-    // Opens file and checks if it is working
+    cout << "\n------------- Count number of words in " << filename << " -------------\n";
     fstream file(filename, ios::in);
-    if(file.fail()){
-        cerr << "File not found!\n";
-    }
-    else{
-        // Initiating variables needed for counting words
-        int nWords = 0;
-        char ch;
-        string text = "";
-        // Looping on each character in the file and copies it to string (text)
+    // Initiating variables needed for counting words
+    int nWords = 0;
+    char ch;
+    string text = "";
+    // Looping on each character in the file and copies it to string (text)
+    file.get(ch);
+    while(!file.eof()){
+        text += ch;
         file.get(ch);
-        while(!file.eof()){
-            text += ch;
-            file.get(ch);
-        }
-        // Loop for counting words in text
-        for(int i = 0; i < text.length() - 1; i++){
-            // Checking if first character is a letter then increments nWords
-            if(i == 0 && !isspace(text[0]))
-                nWords++;
-            // Checking if current letter is a space and the next is a letter to increment nWords
-            if(isspace(text[i]) && !isspace(text[i + 1]))
-                nWords++;
-        }
-        cout << "The number of words in \"" << filename << "\" is " << nWords << " words.\n";
     }
+    // Loop for counting words in text
+    for(int i = 0; i < text.length() - 1; i++){
+        // Checking if first character is a letter then increments nWords
+        if(i == 0 && !isspace(text[0]))
+            nWords++;
+        // Checking if current letter is a space and the next is a letter to increment nWords
+        if(isspace(text[i]) && !isspace(text[i + 1]))
+            nWords++;
+    }
+    cout << "\n$$$$$$$$$$ " << filename << " contains " << nWords << " words $$$$$$$$$$\n";
     file.close(); // Closing file
 }
 
 // Counts how many characters in the file
 void charCount(char filename[]){
-    // Opening file and checks if it is working
+    cout << "\n------------- Count number of characters in " << filename << " -------------\n";
     fstream file(filename, ios::in);
-    if(file.fail()){
-        cerr << "File not found!\n";
-    }
-    else{
-        // Initiating variables needed to count characters
-        int nChars = 0;
-        char ch;
+    // Initiating variables needed to count characters
+    int nChars = 0;
+    char ch;
+    file.get(ch);
+    // Loop that iterates on each letter in file and increments nChars by 1 if it is a character
+    while(!file.eof()){
+        if(!isspace(ch))
+            nChars++;
         file.get(ch);
-        // Loop that iterates on each letter in file and increments nChars by 1 if it is a character
-        while(!file.eof()){
-            if(!isspace(ch))
-                nChars++;
-            file.get(ch);
-        }
-        cout << "The number of characters in \"" << filename << "\" is " << nChars << " characters.\n";
     }
+    cout << "\n$$$$$$$$$$ " << filename << " contains " << nChars << " characters $$$$$$$$$$\n";
     file.close(); // Closing file
 }
 
 // Counts how many lines in the file
 void lineCount(char filename[]){
-    // Opening file and checks if it is working
+    cout << "\n------------- Count number of lines in " << filename << " -------------\n";
     fstream file(filename, ios::in);
-    if(file.fail()){
-        cerr << "File not found!\n";
+    // Checking if file is empty then initiates nLines with 0
+    int nLines;
+    if(file.peek() == EOF){
+        cout << "########## " << filename << " is EMPTY! Contains 0 lines! ##########\n";
+        return;
     }
-    else{
-        // Initiating variables needed to count lines
-        // Checking if file is empty then initiates nLines with 0
-        int nLines;
-        if(file.peek() == EOF)
-            nLines = 0;
-        else
-            nLines = 1;
-        char ch;
+    else
+        nLines = 1;
+    char ch;
+    file.get(ch);
+    // Loop that iterates on each letter
+    while(!file.eof()){
+        // If new line character was found then increment nLines
+        if(ch == '\n')
+            nLines++;
         file.get(ch);
-        // Loop that iterates on each letter
-        while(!file.eof()){
-            // If new line character was found then increment nLines
-            if(ch == '\n')
-                nLines++;
-            file.get(ch);
-        }
-        cout << "The number of lines in \"" << filename << "\" is " << nLines << " lines.\n";
     }
+    cout << "\n$$$$$$$$$$ " << filename << " contains " << nLines << " lines $$$$$$$$$$\n";
     file.close(); // Closing the file
 }
 
 // Searches for a word in the file
 void wordSearch(char filename[]){
+    cout << "\n----------------- Word search in " << filename << " -----------------\n";
     // Taking the word needed to search for from user
     string word;
     cout << "Enter the word to search for: ";
@@ -327,7 +324,7 @@ void wordSearch(char filename[]){
         temp += text[i];
         // Checking if temp string is same as word and that temp is a whole word
         if(temp == word && isspace(text[i + 1])){
-            cout << "\"" << word << "\" was found in the file :)\n";
+            cout << "$$$$$$$$$$ \"" << word << "\" was found in the file :) $$$$$$$$$$\n";
             return;
         }
         // Checking if current character is a space character and empties temp if true
@@ -335,12 +332,13 @@ void wordSearch(char filename[]){
             temp = "";
         }
     }
-    cout << "\"" << word << "\" was not found in the file :(\n";
+    cout << "########## \"" << word << "\" was NOT found in the file :( ##########\n";
     file.close(); // Closing the file
 }
 
 // Counts how many times the word input from user was repeated in the file
 void wordFrequency(char file[]){
+    cout << "\n---------------- Count frequency of a certain word in " << file << " ----------------\n";
     string word;
     // Taking the word from user
     cout << "Enter the word you want to know how many repetitions of it: ";
@@ -376,12 +374,14 @@ void wordFrequency(char file[]){
             temp = "";
         }
     }
-    cout << "\"" << word << "\" is repeated in the file " << count << " time(s).\n";
+    cout << "$$$$$$$$$$ \"" << word << "\" was repeated "
+         << count << " time(s) in " << file << " $$$$$$$$$$\n";
     myFile.close(); // Closing file
 }
 
 // Convert every character in the file to upper case
 void toUpper(char file[]){
+    cout << "\n---------- Convert " << file << " content into Upper case ----------\n";
     fstream fileData;
     fileData.open(file, ios::in);
     char ch;
@@ -400,11 +400,12 @@ void toUpper(char file[]){
         fileData << el;
     }
     fileData.close(); // Closing file
-    cout << "Upper case applied successfully!\n";
+    cout << "$$$$$$$$$$ Upper case applied successfully! $$$$$$$$$$\n";
 }
 
 // Convert every character in the file to lower case
 void toLower(char file[]){
+    cout << "\n---------- Convert " << file << " content into Lower case ----------\n";
     fstream fileData;
     fileData.open(file, ios::in);
     char ch;
@@ -423,11 +424,12 @@ void toLower(char file[]){
         fileData << el;
     }
     fileData.close(); // Closing file
-    cout << "Lower case applied successfully!\n";
+    cout << "$$$$$$$$$$ Lower case applied successfully! $$$$$$$$$$\n";
 }
 
  // Convert first character of each word to upper case
 void firstCaps(char file[]){
+    cout << "\n---------- Convert " << file << " content into first caps ----------\n";
     fstream myFile;
     myFile.open(file, ios::in);
     char ch;
@@ -449,7 +451,7 @@ void firstCaps(char file[]){
         else if(isspace(text[i])){
             myFile << text[i];
             // Convert char after space character
-            if(!isspace(text[i + 1])){
+            if(!isspace(text[i + 1]) && text[i + 1] != '\0'){
                 myFile << (char)toupper(text[i + 1]);
                 i++;
                 }
@@ -459,27 +461,29 @@ void firstCaps(char file[]){
         }
     }
     myFile.close(); // Closing file
-    cout << "First Caps applied successfully!\n";
+    cout << "$$$$$$$$$$ First Caps applied successfully! $$$$$$$$$$\n";
 }
+
 // Save file contents to a new or same file
 void save(){
+    cout << "\n------------------------- Save contents of the file -------------------------\n";
     char newFilename[101];
     // Check the input of the user if its empty that means
     // ENTER is pressed so save to the current file
     while(true){
-        cout << "Enter a new file name OR press ENTER to save to the current same file: ";
+        cout << "Enter a NEW file name OR press ENTER to save to the current same file: ";
         cin.clear();
         cin.getline(newFilename, 101, '\n');
         // Check for the correct format of the input file
-        regex validFormat("([a-zA-Z]+(-|_|[0-9])*[a-zA-Z]+(-|_|[0-9])*)+(.txt)");
+        regex validFormat("[\\w-]+(.txt)");
         // Checking if user typed enter to save contents to current file
         if(newFilename[0] == '\0'){
-            cout << "\"" << fileName << "\" is saved successfully!\n";
+            cout << "$$$$$$$$$$ \"" << fileName << "\" is saved successfully! $$$$$$$$$$\n";
             break;
         }
         // Checking if file format is invalid to return back to user and take input
         else if(!regex_match(newFilename, validFormat)){
-            cerr << "File format NOT supported! Enter only \".txt\" files.\n";
+            cerr << "########## File format NOT supported! Enter only \".txt\" files ##########\n";
             continue;
         }
         // Creates a new file with the given name from user and saves contents in it    
@@ -490,10 +494,11 @@ void save(){
             while(getline(oldFile, line)){
                 newFile << line << endl;
             }
-            cout << "Contents saved in the new file ==> \"" << newFilename << "\" successfully!\n";
+            cout << "$$$$$$$$$$ Contents saved in the new file ==> \"" << newFilename << "\" successfully! $$$$$$$$$$\n";
             oldFile.close();
             newFile.close();
             break;
         }
     }
+    cout << "-------------------------------------------------------------------\n";
 }
