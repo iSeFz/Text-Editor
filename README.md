@@ -1,3 +1,5 @@
+# Status
+Submitted the solution. (16-5-2022)
 # Assignment #4 - Text Editor
 This is the fourth assignment in the Structured Programming Course (CS112) at FCAI CU.\
 Here we will collaborate to complete the text editor task.
