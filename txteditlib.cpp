@@ -12,7 +12,7 @@ using namespace std;
 
 // Takes the initial file from the user to work on
 void getFile(){
-    cout << "------------------------------ Input File -------------------------------\n";
+    cout << "\n------------------------------ Input File -------------------------------\n";
     // Get the file to work on as input from the user
     while(true){
         cout << "Please enter the name of text file to work on: ";
@@ -62,61 +62,47 @@ void start(){
         cout << "Choose one of the above options: ";
         cin.clear();
         getline(cin, choice);
-        if(choice == "1"){
+        if(choice == "1")
             addText(fileName);
-        }
-        else if(choice == "2"){
+        else if(choice == "2")
             displayContent(fileName);
-        }
-        else if(choice == "3"){
+        else if(choice == "3")
             emptyFile(fileName);
-        }
-        else if(choice == "4"){
+        else if(choice == "4")
             encryptORdecrypt(fileName, 1); // encrypt
-        }
-        else if(choice == "5"){
+        else if(choice == "5")
             encryptORdecrypt(fileName, -1); // decrypt
-        }
-        else if(choice == "6"){
+        else if(choice == "6")
             mergeFile(fileName);
-        }
-        else if(choice == "7"){
+        else if(choice == "7")
             wordCount(fileName);
-        }
-        else if(choice == "8"){
+        else if(choice == "8")
             charCount(fileName);
-        }
-        else if(choice == "9"){
+        else if(choice == "9")
             lineCount(fileName);
-        }
-        else if(choice == "10"){
+        else if(choice == "10")
             wordSearch(fileName);
-        }
-        else if(choice == "11"){
+        else if(choice == "11")
             wordFrequency(fileName);
-        }
-        else if(choice == "12"){
+        else if(choice == "12")
             toUpper(fileName);
-        }
-        else if(choice == "13"){
+        else if(choice == "13")
             toLower(fileName);
-        }
-        else if(choice == "14"){
+        else if(choice == "14")
             firstCaps(fileName);
-        }
         else if(choice == "15"){
             save();
             break;
         }
-        else if(choice == "16"){
+        else if(choice == "16")
             break;
-        }
         else{
             cerr << "\n########## INVALID INPUT! Enter only numbers from 1 to 16 ##########\n";
             continue;
         }
     }
     cout << "\t\t\tThank You for using the Text Editor program!\n";
+    return;
 }
 
 // Add more text to the file as input through console
@@ -136,10 +122,10 @@ void addText(char filename[]){
 
 // Display contents of the file in the console
 void displayContent(char filename[]){
-    cout << "\n\t\t---------- " << filename << " ----------\n";
+    cout << "\n\t\t    ---------- " << filename << " ----------\n";
     ifstream displayFile(filename, ios::in);
     if(displayFile.peek() == EOF)
-        cout << "\t\t\t" << filename << " is EMPTY!\n";
+        cout << "\t\t\t  " << filename << " is EMPTY!\n";
     string line;
     // Output the contents of the file line by line
     while(getline(displayFile, line)){
@@ -201,28 +187,31 @@ void mergeFile(char filename[]){
             cerr << "########## File format NOT supported! Enter only \".txt\" files ##########\n";
             continue;
         }
-        else
-            valid = 1;
-    }
-    // Create objects for the original file and the file to merge
-    fstream file1, file2;
-    file1.open(filename, ios::app);
-    file2.open(fileName2, ios::in);
-    // Checks if file2 is working then adds the second file to the main
-    if(file2.fail()){
-        cerr << "########## File does NOT exist! ##########\n";
-        mergeFile(filename);
-    }
-    else{
-        string line;
-        while(getline(file2, line)){
-            file1 << line << endl;
+        // Create objects for the original file and the file to merge
+        fstream file1, file2;
+        file1.open(filename, ios::app);
+        file2.open(fileName2, ios::in);
+        // Checks if file2 is working then adds the second file to the main
+        if(!strcmp(fileName2, filename)){
+            cerr << "########## Choose another DIFFERENT file from the current file!! ##########\n";
+            continue;
         }
-        cout << "$$$$$$$$$$ " << filename << " & " << fileName2 << " were merged successfully! $$$$$$$$$$\n";
+        else if(file2.fail()){
+            cerr << "########## File does NOT exist! ##########\n";
+            continue;
+        }
+        else{
+            string line;
+            while(getline(file2, line)){
+                file1 << line << endl;
+            }
+            cout << "$$$$$$$$$$ " << filename << " & " << fileName2 << " were merged successfully! $$$$$$$$$$\n";
+            break;
+        }
+        // Closing the two files
+        file1.close();
+        file2.close();
     }
-    // Closing the two files
-    file1.close();
-    file2.close();
 }
 
 // Counts how many words in the file
@@ -454,7 +443,7 @@ void firstCaps(char file[]){
             if(!isspace(text[i + 1]) && text[i + 1] != '\0'){
                 myFile << (char)toupper(text[i + 1]);
                 i++;
-                }
+            }
         }
         else{
             myFile << text[i];
@@ -466,7 +455,7 @@ void firstCaps(char file[]){
 
 // Save file contents to a new or same file
 void save(){
-    cout << "\n------------------------- Save contents of the file -------------------------\n";
+    cout << "\n------------------------------ Save contents of the file ------------------------------\n";
     char newFilename[101];
     // Check the input of the user if its empty that means
     // ENTER is pressed so save to the current file
@@ -477,7 +466,7 @@ void save(){
         // Check for the correct format of the input file
         regex validFormat("[\\w-]+(.txt)");
         // Checking if user typed enter to save contents to current file
-        if(newFilename[0] == '\0'){
+        if(newFilename[0] == '\0' | !strcmp(newFilename, fileName)){
             cout << "$$$$$$$$$$ \"" << fileName << "\" is saved successfully! $$$$$$$$$$\n";
             break;
         }
@@ -500,5 +489,5 @@ void save(){
             break;
         }
     }
-    cout << "-------------------------------------------------------------------\n";
+    cout << "---------------------------------------------------------------------------------------\n";
 }
